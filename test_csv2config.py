@@ -1,4 +1,4 @@
-from . import csv2config
+import csv2config
 import pytest
 
 

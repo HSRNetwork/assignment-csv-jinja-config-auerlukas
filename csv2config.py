@@ -1,5 +1,6 @@
 import csv
 import jinja2
+from jinja2 import Template
 
 
 def csv_import(file_name):
@@ -11,9 +12,10 @@ def csv_import(file_name):
     """
     context_list = []
 
-    # ToDo
-
-
+    with open(file_name, 'r') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            context_list.append(row)
 
     return context_list
 
@@ -28,9 +30,20 @@ def render_template(file_name, data_list):
     """
     list_rendered_templates = []
 
-    # ToDo
+    # template_loader = jinja2.FileSystemLoader(searchpath=".")
+    # template_env = jinja2.Environment(loader=template_loader)
+    #
+    # template = template_env.get_template(file_name)
+    #
+    # for device in data_list:
+    #     list_rendered_templates.append(template.render(device))
 
+    with open(file_name, 'r') as jinjafile:
+        raw_template = jinjafile.read()
+        template = jinja2.Template(raw_template)
 
+        for device in data_list:
+            list_rendered_templates.append(template.render(device))
 
     return list_rendered_templates
 
@@ -43,14 +56,15 @@ def write_files(content_list):
     :param content_list: list of texts
     :return: None
     """
-
-    # ToDo
-
-
-
+    i = 1
+    for cfg in content_list:
+        with open('file{i:02d}.md'.format(i=i), 'w') as f_out:
+            f_out.write(cfg)
+        i += 1
 
 
 if __name__ == '__main__':
     csv_data = csv_import('parameter.csv')
     configs = render_template('config_template.j2', csv_data)
     write_files(configs)
+    print('end')
