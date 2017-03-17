@@ -30,20 +30,20 @@ def render_template(file_name, data_list):
     """
     list_rendered_templates = []
 
-    # template_loader = jinja2.FileSystemLoader(searchpath=".")
-    # template_env = jinja2.Environment(loader=template_loader)
-    #
-    # template = template_env.get_template(file_name)
-    #
-    # for device in data_list:
-    #     list_rendered_templates.append(template.render(device))
+    template_loader = jinja2.FileSystemLoader(searchpath=".")
+    template_env = jinja2.Environment(loader=template_loader)
 
-    with open(file_name, 'r') as jinjafile:
-        raw_template = jinjafile.read()
-        template = jinja2.Template(raw_template)
+    template = template_env.get_template(file_name)
 
-        for device in data_list:
-            list_rendered_templates.append(template.render(device))
+    for device in data_list:
+        list_rendered_templates.append(template.render(device))
+
+    # with open(file_name, 'r') as jinjafile:
+    #     raw_template = jinjafile.read()
+    #     template = jinja2.Template(raw_template)
+    #
+    #     for device in data_list:
+    #         list_rendered_templates.append(template.render(device))
 
     return list_rendered_templates
 
